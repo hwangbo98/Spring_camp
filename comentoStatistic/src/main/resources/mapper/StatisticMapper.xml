@@ -11,11 +11,58 @@
         where left(ri.createDate, 2) = #{year};
     </select>
 
-
     <select id="selectYearMonthLogin" parameterType="string" resultType="YearMonthCountDto">
         select concat('20', #{yearMonth}) as yearMonth, count(*) as totCnt
         from statistic3.requestInfo ri
         where left(ri.createDate, 4) = #{yearMonth};
+    </select>
+
+    <select id="selectDepartmentUserCounts" resultType="DepartmentUserCountDto">
+        select u.HR_ORGAN as department, count(distinct u.userID) as userCount
+        from statistic3.user u
+        join statistic3.requestInfo ri on u.userID = ri.userID
+        group by u.HR_ORGAN;
+    </select>
+
+    <select id="selectDepartmentLoginCounts" resultType="DepartmentLoginCountDto">
+        select u.HR_ORGAN as department, count(*) as loginCount
+        from statistic3.requestInfo ri
+        join statistic3.user u on ri.userID = u.userID
+        where ri.requestCode = 'LIN'
+        group by u.HR_ORGAN;
+    </select>
+
+    <select id="selectYearMonthPostCounts" resultType="YearMonthPostCountDto">
+        select left(ri.createDate, 6) as yearMonth, count(*) as postCount
+        from statistic3.requestInfo ri
+        where ri.requestCode = 'POST'
+        group by left(ri.createDate, 6);
+    </select>
+
+    <select id="selectDepartmentPostCounts" resultType="DepartmentPostCountDto">
+        select u.HR_ORGAN as department, count(*) as postCount
+        from statistic3.requestInfo ri
+        join statistic3.user u on ri.userID = u.userID
+        where ri.requestCode = 'POST'
+        group by u.HR_ORGAN;
+    </select>
+
+    <select id="selectAvgDailyLogins" resultType="double">
+        SELECT AVG(daily_count) AS avg_daily_logins
+        FROM (
+            SELECT LEFT(createDate, 8) AS date, COUNT(*) AS daily_count
+            FROM statistic3.requestInfo
+            WHERE requestCode = 'LIN'
+            GROUP BY LEFT(createDate, 8)
+        ) AS daily_counts;
+    </select>
+
+    <select id="selectNonHolidayLogins" resultType="YearCountDto">
+        SELECT LEFT(createDate, 8) AS year, COUNT(*) AS totCnt
+        FROM statistic3.requestInfo
+        WHERE requestCode = 'LIN'
+        AND DAYOFWEEK(STR_TO_DATE(createDate, '%y%m%d%H%i')) NOT IN (1, 7)  -- 1: Sunday, 7: Saturday
+        GROUP BY LEFT(createDate, 8);
     </select>
 
 </mapper>

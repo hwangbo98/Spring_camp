@@ -6,21 +6,20 @@
 <mapper namespace="com.demo.comentoStatistic.dao.StatisticMapper">
 
     <select id="selectYearLogin" parameterType="string" resultType="YearCountDto">
-        select concat('20', #{year}) as year, count(*) as totCnt
+        select #{year} as year, count(*) as totCnt
         from statistic3.requestInfo ri
-        where left(ri.createDate, 2) = #{year};
+        where left(ri.createDate, 4) = #{year};
     </select>
 
     <select id="selectYearMonthLogin" parameterType="string" resultType="YearMonthCountDto">
-        select concat('20', #{yearMonth}) as yearMonth, count(*) as totCnt
+        select #{yearMonth} as yearMonth, count(*) as totCnt
         from statistic3.requestInfo ri
-        where left(ri.createDate, 4) = #{yearMonth};
+        where left(ri.createDate, 6) = #{yearMonth};
     </select>
 
     <select id="selectDepartmentUserCounts" resultType="DepartmentUserCountDto">
         select u.HR_ORGAN as department, count(distinct u.userID) as userCount
         from statistic3.user u
-        join statistic3.requestInfo ri on u.userID = ri.userID
         group by u.HR_ORGAN;
     </select>
 
@@ -55,14 +54,6 @@
             WHERE requestCode = 'LIN'
             GROUP BY LEFT(createDate, 8)
         ) AS daily_counts;
-    </select>
-
-    <select id="selectNonHolidayLogins" resultType="YearCountDto">
-        SELECT LEFT(createDate, 8) AS year, COUNT(*) AS totCnt
-        FROM statistic3.requestInfo
-        WHERE requestCode = 'LIN'
-        AND DAYOFWEEK(STR_TO_DATE(createDate, '%y%m%d%H%i')) NOT IN (1, 7)  -- 1: Sunday, 7: Saturday
-        GROUP BY LEFT(createDate, 8);
     </select>
 
 </mapper>

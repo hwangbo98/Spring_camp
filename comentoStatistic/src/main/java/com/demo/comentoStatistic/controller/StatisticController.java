@@ -57,9 +57,20 @@ public class StatisticController {
         return ResponseEntity.ok(statisticService.getAvgDailyLogins());
     }
 
-    @GetMapping(value = "/api/v1/logins/nonHoliday", produces = "application/json")
+//    @GetMapping(value = "/api/v1/logins/nonHoliday", produces = "application/json")
+//    @ResponseBody
+//    public ResponseEntity<List<YearCountDto>> getNonHolidayLogins() {
+//        return ResponseEntity.ok(statisticService.getNonHolidayLogins());
+//    }
+     @GetMapping(value = "/api/v1/logins/holiday/{year}", produces = "application/json")
     @ResponseBody
-    public ResponseEntity<List<YearCountDto>> getNonHolidayLogins() {
-        return ResponseEntity.ok(statisticService.getNonHolidayLogins());
+    public ResponseEntity<List<YearCountDto>> getHolidayLogins(@PathVariable("year") int year) {
+        return ResponseEntity.ok(statisticService.getHolidayLogins(year));
+    }
+
+    @GetMapping(value = "/api/v1/logins/nonHoliday/{year}", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<List<YearCountDto>> getNonHolidayLogins(@PathVariable("year") int year) {
+        return ResponseEntity.ok(statisticService.getNonHolidayLogins(year));
     }
 }

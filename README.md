@@ -1,125 +1,166 @@
+### README
 
-### 2. API 엔드포인트
+# 코멘토 Statistic API
 
-#### 2.1 월별 접속자 수
+## API Endpoints
+
+### 1. 연별 로그인 접속수 조회
+
 - **URL**: `/api/v1/logins/{year}`
-- **Method**: `GET`
-- **Description**: 지정된 연도의 월별 접속자 수를 반환합니다.
-- **Response**:
-```json
-{
-  "year": "",
-  "totCnt": 
-}
-```
+- **Method**: GET
+- **Path Variables**:
+  - `year`: 요청 대상 연도 (예: `2020`)
+- **Response Body**:
+  ```json
+  {
+      "year": "2020",
+      "totalAccessCount": 100
+  }
+  ```
 
-#### 2.2 일자별 접속자 수
+### 2. 년월별 로그인 접속수 조회
+
 - **URL**: `/api/v1/logins/{year}/{month}`
-- **Method**: `GET`
-- **Description**: 지정된 연도와 월의 일자별 접속자 수를 반환합니다.
-- **Response**:
-```json
-{
-  "yearMonth": "",
-  "totCnt": 
-}
-```
+- **Method**: GET
+- **Path Variables**:
+  - `year`: 요청 대상 연도 (예: `2020`)
+  - `month`: 요청 대상 월 (예: `08`)
+- **Response Body**:
+  ```json
+  {
+      "yearMonth": "202008",
+      "totalAccessCount": 50
+  }
+  ```
 
-#### 2.3 부서별 사용자 접속 수
+### 3. 부서별 사용자 수 조회
+
 - **URL**: `/api/v1/departments/userCounts`
-- **Method**: `GET`
-- **Description**: 각 부서별 사용자 접속 수를 반환합니다.
-- **Response**:
-```json
-[
-  {
-    "department": "",
-    "userCount": 
-  },
-  {
-    "department": "",
-    "userCount": 
-  }
-]
-```
+- **Method**: GET
+- **Query Parameters**:
+  - `department` (optional): 부서 코드 (예: `HR1`)
+- **Response Body**:
+  ```json
+  [
+      {
+          "department": "HR1",
+          "userCount": 10
+      },
+      {
+          "department": "HR2",
+          "userCount": 12
+      }
+  ]
+  ```
 
-#### 2.4 부서별 로그인 요청 수
+### 4. 부서별 로그인 수 조회
+
 - **URL**: `/api/v1/departments/loginCounts`
-- **Method**: `GET`
-- **Description**: 각 부서별 로그인 요청 수를 반환합니다.
-- **Response**:
-```json
-[
-  {
-    "department": "",
-    "loginCount": 
-  },
-  {
-    "department": "",
-    "loginCount": 
-  }
-]
-```
+- **Method**: GET
+- **Query Parameters**:
+  - `department` (optional): 부서 코드 (예: `HR1`)
+- **Response Body**:
+  ```json
+  [
+      {
+          "department": "HR1",
+          "loginCount": 100
+      },
+      {
+          "department": "HR2",
+          "loginCount": 80
+      }
+  ]
+  ```
 
-#### 2.5 년월별 게시글 작성 수
+### 5. 년월별 게시글 작성수 조회
+
 - **URL**: `/api/v1/posts/yearMonthCounts`
-- **Method**: `GET`
-- **Description**: 각 년월별 게시글 작성 수를 반환합니다.
-- **Response**:
-```json
-[
-  {
-    "yearMonth": "",
-    "postCount": 
-  },
-  {
-    "yearMonth": "",
-    "postCount": 
-  }
-]
-```
+- **Method**: GET
+- **Query Parameters**:
+  - `yearMonth` (optional): 요청 대상 연월 (예: `202008`)
+- **Response Body**:
+  ```json
+  [
+      {
+          "yearMonth": "202008",
+          "postCount": 25
+      },
+      {
+          "yearMonth": "202009",
+          "postCount": 30
+      }
+  ]
+  ```
 
-#### 2.6 부서별 게시글 작성 수
+### 6. 부서별 게시글 작성수 조회
+
 - **URL**: `/api/v1/departments/postCounts`
-- **Method**: `GET`
-- **Description**: 각 부서별 게시글 작성 수를 반환합니다.
-- **Response**:
-```json
-[
-  {
-    "department": "",
-    "postCount": 
-  },
-  {
-    "department": "",
-    "postCount": 
-  }
-]
-```
+- **Method**: GET
+- **Query Parameters**:
+  - `department` (optional): 부서 코드 (예: `HR1`)
+- **Response Body**:
+  ```json
+  [
+      {
+          "department": "HR1",
+          "postCount": 15
+      },
+      {
+          "department": "HR2",
+          "postCount": 20
+      }
+  ]
+  ```
 
-#### 2.7 평균 하루 로그인 수
+### 7. 평균 하루 로그인 수 조회
+
 - **URL**: `/api/v1/logins/averageDaily`
-- **Method**: `GET`
-- **Description**: 평균 하루 로그인 수를 반환합니다.
-- **Response**:
-```json
-1.0
-```
-
-#### 2.8 휴일을 제외한 로그인 수
-- **URL**: `/api/v1/logins/nonHoliday`
-- **Method**: `GET`
-- **Description**: 휴일을 제외한 일자별 로그인 수를 반환합니다.
-- **Response**:
-```json
-[
+- **Method**: GET
+- **Response Body**:
+  ```json
   {
-    "year": "",
-    "totCnt": 
-  },
-  {
-    "year": "",
-    "totCnt": 4
+      "averageDailyLogins": 45.5
   }
-]
-```
+  ```
+
+### 8. 공휴일 로그인 수 조회
+
+- **URL**: `/api/v1/logins/holiday/{year}`
+- **Method**: GET
+- **Path Variables**:
+  - `year`: 요청 대상 연도 (예: `2021`)
+- **Response Body**:
+  ```json
+  [
+      {
+          "year": "2021-01-01",
+          "totalAccessCount": 5
+      },
+      {
+          "year": "2021-03-01",
+          "totalAccessCount": 3
+      }
+  ]
+  ```
+
+### 9. 주말과 공휴일을 제외한 로그인 수 조회
+
+- **URL**: `/api/v1/logins/nonHoliday/{year}`
+- **Method**: GET
+- **Path Variables**:
+  - `year`: 요청 대상 연도 (예: `2021`)
+- **Response Body**:
+  ```json
+  [
+      {
+          "year": "2021-01-04",
+          "totalAccessCount": 10
+      },
+      {
+          "year": "2021-01-05",
+          "totalAccessCount": 15
+      }
+  ]
+  ```
+

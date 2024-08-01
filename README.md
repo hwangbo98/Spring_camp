@@ -4,6 +4,9 @@
 
 ## API Endpoints
 
+### DB
+statistic3
+
 ### 1. 연별 로그인 접속수 조회
 
 - **URL**: `/api/v1/logins/{year}`
@@ -14,7 +17,7 @@
   ```json
   {
       "year": "2020",
-      "totalAccessCount": 100
+      "totCnt": 100
   }
   ```
 
@@ -29,7 +32,7 @@
   ```json
   {
       "yearMonth": "202008",
-      "totalAccessCount": 50
+      "totCnt": 50
   }
   ```
 
@@ -64,11 +67,11 @@
   [
       {
           "department": "HR1",
-          "loginCount": 100
+          "totCnt": 100
       },
       {
           "department": "HR2",
-          "loginCount": 80
+          "totCnt": 80
       }
   ]
   ```
@@ -120,7 +123,7 @@
 - **Response Body**:
   ```json
   {
-      "averageDailyLogins": 45.5
+      "avgDailyLogins": 45.5
   }
   ```
 
@@ -135,11 +138,11 @@
   [
       {
           "year": "2021-01-01",
-          "totalAccessCount": 5
+          "totCnt": 5
       },
       {
           "year": "2021-03-01",
-          "totalAccessCount": 3
+          "totCnt": 3
       }
   ]
   ```
@@ -155,12 +158,11 @@
   [
       {
           "year": "2021-01-04",
-          "totalAccessCount": 10
+          "totCnt": 10
       },
       {
           "year": "2021-01-05",
-          "totalAccessCount": 15
+          "totCnt": 15
       }
   ]
   ```
-
